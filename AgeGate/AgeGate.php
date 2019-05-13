@@ -2,7 +2,6 @@
 namespace EighteenPlus\AgeGate;
 
 require("autoload.php");
-require("../vendor/autoload.php");
 require("GbIpCheck.php");
 
 use \Firebase\JWT\JWT;
