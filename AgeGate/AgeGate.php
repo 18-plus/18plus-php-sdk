@@ -1,7 +1,6 @@
 <?php
 namespace EighteenPlus\AgeGate;
 
-// require("autoload.php");
 require("GbIpCheck.php");
 
 use \Firebase\JWT\JWT;
