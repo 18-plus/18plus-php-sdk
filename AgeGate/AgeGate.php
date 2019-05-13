@@ -1,13 +1,10 @@
 <?php
 namespace EighteenPlus\AgeGate;
 
-require("autoload.php");
+// require("autoload.php");
 require("GbIpCheck.php");
 
 use \Firebase\JWT\JWT;
-use GbIpCheck;
-
-
 
 class AgeGate {
     private $AgeCheckURL = "https://deep.reallyme.net/agecheck";

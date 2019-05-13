@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-0": {
-            "EighteenPlus\\AgeGate\\": "AgeGate/"
+            "EighteenPlus\\AgeGate\\": "AgeGate/",
+            "Uzulla\\QrCode": "lib/"
         }
     }
 }

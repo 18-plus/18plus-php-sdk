@@ -4,9 +4,9 @@ namespace EighteenPlus\AgeGate;
 require("GbIpData.php");
 
 class GbIPCheck{
-    public function IsGB($ip1){
+    public static function IsGB($ip1){
         global $ipranges;
-        $ip2 = $this->IPToUint32(ip1);
+        $ip2 = GbIPCheck::IPToUint32($ip1);
 
         $len1 = count($ipranges) / 2;
 
@@ -35,12 +35,12 @@ class GbIPCheck{
                 continue;
             }
 
-            return false;
+            return "false";
 
         }
     }
 
-    function IPToUint32($ip){
+    static function IPToUint32($ip){
 
         $ss = explode(".", $ip);
 
