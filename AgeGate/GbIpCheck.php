@@ -35,7 +35,7 @@ class GbIPCheck{
                 continue;
             }
 
-            return "false";
+            return false;
 
         }
     }
