@@ -38,6 +38,11 @@ Finally, a cookie is stored with the visitor to prevent his needing to reconfirm
 
 ## Installing
 
+### For Laravel
+Require this package in your composer.json and update composer. This will download the package.
+
+composer require barryvdh/laravel-dompdf
+
 ## Configuration
 
 ## Support

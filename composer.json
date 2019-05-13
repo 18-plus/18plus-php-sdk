@@ -1,14 +1,14 @@
 {
-    "name": "eighteenplus/agegate",
-    "description": "Provide AgeGate for Adult Site.",
+    "name": "18+/AgeGate",
+    "description": "18+ Age Gate for Adult Websites",
     "keywords": ["eighteenplus", "agegate"],
     "homepage": "https://18plus.org",
     "type": "library",
     "license": "BSD-3-Clause",
     "authors": [
         {
-            "name": "Your Name",
-            "email": "your@name.com"
+            "name": "***",
+            "email": "you@you.com"
         }
     ],
     "require": {
@@ -20,8 +20,12 @@
     },
     "autoload": {
         "psr-0": {
-            "Uzulla\\QrCode": "lib/",
-            "AgeGate": "AgeGate/"
+            "EighteenPlus\\AgeGate\\": "AgeGate/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
         }
     }
 }
