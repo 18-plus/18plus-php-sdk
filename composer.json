@@ -22,15 +22,5 @@
         "psr-0": {
             "EighteenPlus\\AgeGate\\": "AgeGate/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        },
-        "laravel": {
-            "dont-discover": [
-                "laravel/dusk"
-            ]
-        }
     }
 }
