@@ -41,7 +41,143 @@ Finally, a cookie is stored with the visitor to prevent his needing to reconfirm
 ### For Laravel
 Require this package in your composer.json and update composer. This will download the package.
 
-composer require barryvdh/laravel-dompdf
+```
+composer require 18plus/agegate
+```
+
+## Usage
+
+First, verify the visitor is from UK.
+If the visitor is from UK, show the AgeGate.
+
+```
+if( EighteenPlus\AgeGate\AgeGate::GbIPCheck() ){
+    return EighteenPlus\AgeGate\AgeGate::view('img/your-logo.png', '/ageverify');
+}
+```
+The AgeGate::view() function has two parameters - 1: your adult site logo file url, 2: route that will return after agegate sign.
+If you don't the route parameter, it will return to the '/AgeVerifyResult' route, then you must define the route and action following '/AgeVerifyResult'.
+
+### For Laravel
+
+```
+In routes/web.php
+
+Route::any('/AgeVerifyResult', "EighteenPlusController@verify");
+
+...
+
+In EighteenPlusController.php / EighteenPlusController class
+
+...
+
+public function verify(Request $request){
+    if( EighteenPlus\AgeGate\AgeGate::verify($request->jwt) ){
+        // redirect to the home route of your adult site.
+    }
+    else{
+        // the visitor does not match the 18+ Age Gate requirement.
+    }
+}
+```
+
+### For Symfony
+
+```
+In config/routes.php
+
+return function (RoutingConfigurator $routes) {
+    
+    ...
+
+    $routes->add('AgeVerifyResult', '/AgeVerifyResult')
+        ->controller([EighteenPlusController::class, 'verify']);
+
+    ...
+};
+
+...
+
+In EighteenPlusController.php / EighteenPlusController class
+
+...
+
+public function verify(Request $request){
+    if( EighteenPlus\AgeGate\AgeGate::verify($request->request->jwt) ){
+        // redirect to the home route of your adult site.
+    }
+    else{
+        // the visitor does not match the 18+ Age Gate requirement.
+    }
+}
+```
+
+### For CodeIgniter
+
+```
+In config/routes.php
+...
+
+$route['AgeVerifyResult'] = 'AgeVerifyResult';
+
+...
+
+
+In controllers/AgeVerifyResult.php
+
+...
+
+class AgeVerifyResult extends CI_Controller {
+    public function index(){
+        if( EighteenPlus\AgeGate\AgeGate::verify($this->input->post('jwt')) ){
+            // redirect to the home route of your adult site.
+        }
+        else{
+            // the visitor does not match the 18+ Age Gate requirement.
+        }
+    }
+}
+```
+
+### For Zend
+
+```
+In module.config.php
+...
+
+'router' => array(
+    'routes' => array(
+        'album' => array(
+            'type'    => 'segment',
+            'options' => array(
+                'route'    => '/AgeVerifyResult',
+                'defaults' => array(
+                    'controller' => 'AgeVerifyResult\Controller\AgeVerifyResult',
+                    'action'     => 'index',
+                ),
+            ),
+        ),
+    ),
+),
+
+...
+
+
+In class AgeVerifyResultController
+
+...
+
+class AgeVerifyResultController extends AbstractActionController {
+    public function index(){
+        if( EighteenPlus\AgeGate\AgeGate::verify($this->input->post('jwt')) ){
+            // redirect to the home route of your adult site.
+        }
+        else{
+            // the visitor does not match the 18+ Age Gate requirement.
+        }
+    }
+}
+```
 
 ## Configuration
 
