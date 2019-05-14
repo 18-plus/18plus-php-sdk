@@ -67,7 +67,8 @@ class AgeGate {
         return GbIPCheck::IsGB($this->get_client_ip());
     }
     
-    public static function view() {
+    public static function view($logourl, $redirectPath = 'AgeVerifyResult') {
+
         if(!isset($_SESSION["agid"])){
             $_SESSION["agid"] = self::gen_uuid();
         }
@@ -78,9 +79,16 @@ class AgeGate {
         $qri = new \Uzulla\QrCode\Image();
         $qri->qrcode_image_out($deepurl, "png", $filename);
 
+        $im = imagecreatefrompng(__DIR__."/logo.png");
+        ob_start(); // Start buffering the output
+        imagepng($im, null, 0, PNG_NO_FILTER);
+        $b64 = base64_encode(ob_get_contents()); // Get what we've just outputted and base64 it
+        imagedestroy($im);
+        ob_end_clean();
+
         $templatefile = fopen(__DIR__."/template.html", "r") or die("Unable to open file!");
         $template = fread($templatefile,filesize(__DIR__."/template.html"));
-        $html = sprintf($template, $filename, $deepurl);
+        $html = sprintf($template, $logourl, "data:image/png;base64,".$b64, $deepurl, "/qr/".$this->uuid.".png");
         fclose($templatefile);
         return $html;
     }
@@ -92,7 +100,7 @@ class AgeGate {
         $publicKey = base64_decode(static::$JWT_PUB);
         $decoded = JWT::decode($jwt, $publicKey, array('RS256'));
     
-        // $decoded_array = (array) $decoded;
+        $decoded_array = (array) $decoded;
         // -------- jwt decode end --------
         return true;
     }
