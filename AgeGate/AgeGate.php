@@ -88,7 +88,7 @@ class AgeGate {
 
         $templatefile = fopen(__DIR__."/template.html", "r") or die("Unable to open file!");
         $template = fread($templatefile,filesize(__DIR__."/template.html"));
-        $html = sprintf($template, $logourl, "data:image/png;base64,".$b64, $deepurl, "/qr/".$this->uuid.".png");
+        $html = sprintf($template, $logourl, "data:image/png;base64,".$b64, $deepurl, "/qr/".$_SESSION["agid"].".png");
         fclose($templatefile);
         return $html;
     }
