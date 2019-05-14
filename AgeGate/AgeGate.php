@@ -73,7 +73,7 @@ class AgeGate {
             $_SESSION["agid"] = self::gen_uuid();
         }
 
-        if(!file_exists(getcwd()."/qr")){
+        if(!file_exists("/qr")){
             mkdir("/qr");
         }
         $filename = "/qr/" . $_SESSION["agid"] . ".png";
