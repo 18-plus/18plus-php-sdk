@@ -73,14 +73,19 @@ class AgeGate {
             $_SESSION["agid"] = self::gen_uuid();
         }
 
-        if(!file_exists("/qr")){
-            mkdir("/qr");
-        }
-        $filename = "/qr/" . $_SESSION["agid"] . ".png";
+        $filename = $_SESSION["agid"] . ".png";
         $deepurl = self::makeUrl($_SESSION["agid"]);
     
         $qri = new \Uzulla\QrCode\Image();
         $qri->qrcode_image_out($deepurl, "png", $filename);
+        
+        $im = imagecreatefrompng($filename);
+        ob_start(); // Start buffering the output
+        imagepng($im, null, 0, PNG_NO_FILTER);
+        $b64_ = base64_encode(ob_get_contents()); // Get what we've just outputted and base64 it
+        imagedestroy($im);
+        ob_end_clean();
+        unlink($filename);
 
         $im = imagecreatefrompng(__DIR__."/logo.png");
         ob_start(); // Start buffering the output
@@ -91,7 +96,7 @@ class AgeGate {
 
         $templatefile = fopen(__DIR__."/template.html", "r") or die("Unable to open file!");
         $template = fread($templatefile,filesize(__DIR__."/template.html"));
-        $html = sprintf($template, $logourl, "data:image/png;base64,".$b64, $deepurl, "/qr/".$_SESSION["agid"].".png");
+        $html = sprintf($template, $logourl, "data:image/png;base64,".$b64, $deepurl, "data:image/png;base64,".$b64_);
         fclose($templatefile);
         return $html;
     }
