@@ -68,6 +68,9 @@ class AgeGate {
     
     public static function isVerified() {
         session_start();
+        if(!isset($_SESSION["agid"])){
+            return false;
+        }
 
         $logfile = fopen("log.dat", "r");
         if(filesize("log.dat") == 0) {
