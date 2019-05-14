@@ -73,7 +73,10 @@ class AgeGate {
             $_SESSION["agid"] = self::gen_uuid();
         }
 
-        $filename = $_SESSION["agid"] . ".png";
+        if(!file_exists(getcwd()."/qr")){
+            mkdir("/qr");
+        }
+        $filename = "/qr/" . $_SESSION["agid"] . ".png";
         $deepurl = self::makeUrl($_SESSION["agid"]);
     
         $qri = new \Uzulla\QrCode\Image();
