@@ -68,8 +68,6 @@ class AgeGate {
     }
     
     public static function view() {
-        $publicKey = base64_decode(static::$JWT_PUB);
-
         if(!isset($_SESSION["agid"])){
             $_SESSION["agid"] = self::gen_uuid();
         }
@@ -87,11 +85,12 @@ class AgeGate {
         return $html;
     }
 
-    public static function verify() {
+    public static function verify($jwt) {
         // -------- jwt decode start --------
         // $jwt = JWT::encode($token, $privateKey, 'RS256');
     
-        // $decoded = JWT::decode($jwt, $publicKey, array('RS256'));
+        $publicKey = base64_decode(static::$JWT_PUB);
+        $decoded = JWT::decode($jwt, $publicKey, array('RS256'));
     
         // $decoded_array = (array) $decoded;
         // -------- jwt decode end --------
