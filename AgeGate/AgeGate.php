@@ -53,10 +53,10 @@ class AgeGate {
         );
     }
 
-    static function makeUrl($uuid) {
+    static function makeUrl($uuid, $redirectPath) {
         // global $AgeCheckURL;
         $returnURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-        $postbackURL = $returnURL . "/" . "ReturnAgeVerifyResult";
+        $postbackURL = $returnURL . $redirectPath;
         $url = sprintf("%s?agid=%s&postback=%s&url=%s", static::$AgeCheckURL, urlencode($_SESSION["agid"]), urlencode($postbackURL), urlencode($returnURL));
 
         return $url;
@@ -104,7 +104,7 @@ class AgeGate {
         }
 
         $filename = $_SESSION["agid"] . ".png";
-        $deepurl = self::makeUrl($_SESSION["agid"]);
+        $deepurl = self::makeUrl($_SESSION["agid"], $redirectPath);
     
         $qri = new \Uzulla\QrCode\Image();
         $qri->qrcode_image_out($deepurl, "png", $filename);
