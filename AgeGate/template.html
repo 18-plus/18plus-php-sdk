@@ -54,7 +54,6 @@
             // type: "POST",
             data: {'jwt': 'WAITING'},
             success: function(ret) {
-                console.log(ret != "c_wait");
                 if( ret != "c_wait") {
                     window.location = ret;
                 }
