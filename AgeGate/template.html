@@ -48,18 +48,22 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
 <script>
-    var myVar = setTimeout(sendVerifyRequest, 3000);
-    function sendVerifyRequest(){  
+    var sendVerifyRequest = function() {  
         $.ajax({
             url: '%s',
+            // type: "POST",
             data: {'jwt': 'WAITING'},
             success: function(ret) {
+                console.log(ret != "c_wait");
                 if( ret != "c_wait") {
-                    clearTimeout(myVar);
                     window.location = ret;
                 }
             }
+        })
+        .always(function () {
+            setTimeout(sendVerifyRequest, 3000);
         });
-    }
+    };
+    sendVerifyRequest();
 </script>
 </html>
