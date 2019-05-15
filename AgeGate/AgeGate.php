@@ -57,7 +57,7 @@ class AgeGate {
         // global $AgeCheckURL;
         $returnURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
         $postbackURL = $returnURL . $redirectPath;
-        $url = sprintf("%s?agid=%s&postback=%s&url=%s", static::$AgeCheckURL, urlencode($_SESSION["agid"]), urlencode($postbackURL), urlencode($returnURL));
+        $url = sprintf("%s?agid=%s&postback=%s&url=%s", static::$AgeCheckURL, urlencode($uuid), urlencode($postbackURL), urlencode($returnURL));
 
         return $url;
     }
