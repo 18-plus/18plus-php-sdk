@@ -136,10 +136,6 @@ class AgeGate {
             session_start();
         }
 
-        if(!isset($_SESSION["agid"])){
-            return false;
-        }
-
         $logfile = fopen("log.dat", "w+");
         if(filesize("log.dat") == 0) {
             $accepted_ids = [];    
@@ -152,7 +148,7 @@ class AgeGate {
         }
 
         if( $jwt == "WAITING" ){
-            if(!in_array($_SESSION["agid"], $accepted_ids)){
+            if(!isset($_SESSION["agid"]) || !in_array($_SESSION["agid"], $accepted_ids)){
                 fclose($logfile);
                 return null;
             }
