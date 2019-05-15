@@ -74,6 +74,10 @@ class AgeGate {
             return false;
         }
 
+        if(!file_exists("log.dat")){
+            return false;
+        }
+
         $logfile = fopen("log.dat", "r");
         if(filesize("log.dat") == 0) {
             $accepted_ids = [];    
