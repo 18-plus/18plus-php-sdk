@@ -47,16 +47,17 @@ composer require 18plus/agegate
 
 ## Usage
 
-First, verify the visitor is from UK.
+First, verify the visitor is from UK or check to verified already.
 If the visitor is from UK, show the AgeGate.
 
 ```
-if( EighteenPlus\AgeGate\AgeGate::GbIPCheck() ){
-    return EighteenPlus\AgeGate\AgeGate::view('img/your-logo.png', '/ageverify');
+if(AgeGate::isVerified() || !AgeGate::GbIPCheck()){
+    return redirect('/home');
 }
+return AgeGate::view('', '/home');
 ```
-The AgeGate::view() function has two parameters - 1: your adult site logo file url, 2: route that will return after agegate sign.
-If you don't the route parameter, it will return to the '/AgeVerifyResult' route, then you must define the route and action following '/AgeVerifyResult'.
+The AgeGate::view() function has three parameters - 1: your adult site logo file url, 2: route that will go when agegate is droped, 3: route that will return after agegate sign.
+If you don't set the third parameter, it will return to the '/AgeVerifyResult' route, then you must define the route and action following '/AgeVerifyResult'.
 
 ### For Laravel
 
@@ -72,12 +73,7 @@ In EighteenPlusController.php / EighteenPlusController class
 ...
 
 public function verify(Request $request){
-    if( EighteenPlus\AgeGate\AgeGate::verify($request->jwt) ){
-        // redirect to the home route of your adult site.
-    }
-    else{
-        // the visitor does not match the 18+ Age Gate requirement.
-    }
+    return EighteenPlus\AgeGate\AgeGate::verify($request->jwt);
 }
 ```
 
@@ -103,12 +99,7 @@ In EighteenPlusController.php / EighteenPlusController class
 ...
 
 public function verify(Request $request){
-    if( EighteenPlus\AgeGate\AgeGate::verify($request->request->jwt) ){
-        // redirect to the home route of your adult site.
-    }
-    else{
-        // the visitor does not match the 18+ Age Gate requirement.
-    }
+    return EighteenPlus\AgeGate\AgeGate::verify($request->request->jwt);
 }
 ```
 
@@ -129,12 +120,7 @@ In controllers/AgeVerifyResult.php
 
 class AgeVerifyResult extends CI_Controller {
     public function index(){
-        if( EighteenPlus\AgeGate\AgeGate::verify($this->input->post('jwt')) ){
-            // redirect to the home route of your adult site.
-        }
-        else{
-            // the visitor does not match the 18+ Age Gate requirement.
-        }
+        return EighteenPlus\AgeGate\AgeGate::verify($this->input->post('jwt'));
     }
 }
 ```
@@ -169,12 +155,7 @@ In class AgeVerifyResultController
 
 class AgeVerifyResultController extends AbstractActionController {
     public function index(){
-        if( EighteenPlus\AgeGate\AgeGate::verify($this->input->post('jwt')) ){
-            // redirect to the home route of your adult site.
-        }
-        else{
-            // the visitor does not match the 18+ Age Gate requirement.
-        }
+        return EighteenPlus\AgeGate\AgeGate::verify($this->input->post('jwt'));
     }
 }
 ```
