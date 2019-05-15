@@ -150,7 +150,7 @@ class AgeGate {
         if( $jwt == "WAITING" ){
             if(!isset($_SESSION["agid"]) || !in_array($_SESSION["agid"], $accepted_ids)){
                 fclose($logfile);
-                return null;
+                return "c_wait";
             }
         }
         else{
@@ -165,7 +165,7 @@ class AgeGate {
             }
             catch (Exception $e) {
                 fclose($logfile);
-                return null;
+                return "c_wait";
             }
 
             // -------- jwt decode end --------

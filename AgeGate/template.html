@@ -54,7 +54,7 @@
             url: '%s',
             data: {'jwt': 'WAITING'},
             success: function(ret) {
-                if( ret != null) {
+                if( ret != "c_wait") {
                     clearTimeout(myVar);
                     window.location = ret;
                 }
