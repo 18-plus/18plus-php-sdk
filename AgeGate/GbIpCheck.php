@@ -5,10 +5,9 @@ require("GbIpData.php");
 
 class GbIPCheck{
     public static function IsGB($ip1){
-        global $ipranges;
         $ip2 = GbIPCheck::IPToUint32($ip1);
 
-        $len1 = count($ipranges) / 2;
+        $len1 = count(ipranges) / 2;
 
         $a = 0;
         $b = $len1;
@@ -17,7 +16,7 @@ class GbIPCheck{
 
             $c = ($a + $b) / 2;
 
-            if( $ip2 >= $ipranges[$c*2+0] && $ip2 <= $ipranges[$c*2+1] ){
+            if( $ip2 >= ipranges[$c*2+0] && $ip2 <= ipranges[$c*2+1] ){
                 return true;
             }
 
@@ -25,12 +24,12 @@ class GbIPCheck{
                 return false;
             }
 
-            if( $ip2 < $ipranges[$c*2+0] ){
+            if( $ip2 < ipranges[$c*2+0] ){
                 $b = $c;
                 continue;
             }
 
-            if( $ip2 > $ipranges[$c*2+1] ){
+            if( $ip2 > ipranges[$c*2+1] ){
                 $a = $c;
                 continue;
             }

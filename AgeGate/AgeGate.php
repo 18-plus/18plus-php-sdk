@@ -63,11 +63,13 @@ class AgeGate {
     }
 
     public static function GbIPCheck() {
-        return GbIPCheck::IsGB($this->get_client_ip());
+        return GbIPCheck::IsGB(self::get_client_ip());
     }
     
     public static function isVerified() {
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         if(!isset($_SESSION["agid"])){
             return false;
         }
@@ -88,7 +90,9 @@ class AgeGate {
     }
 
     public static function view($logourl, $nexturl, $redirectPath = '/AgeVerifyResult') {
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
         if(!isset($_SESSION["agid"])){
             $_SESSION["agid"] = self::gen_uuid();
@@ -124,7 +128,9 @@ class AgeGate {
     }
 
     public static function verify($jwt) {
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
         if(!isset($_SESSION["agid"])){
             return false;
