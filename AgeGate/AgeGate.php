@@ -57,7 +57,7 @@ class AgeGate {
         // global $AgeCheckURL;
         $returnURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
         $postbackURL = $returnURL . $redirectPath;
-        $url = sprintf("%s?agid=%s&postback=%s&url=%s", static::$AgeCheckURL, urlencode($uuid), urlencode($postbackURL), urlencode($returnURL));
+        $url = sprintf("%s?agid=%s&postback=%s&url=%s", static::$AgeCheckURL, urlencode($_SESSION["agid"]), urlencode($postbackURL), urlencode($returnURL));
 
         return $url;
     }
@@ -136,20 +136,26 @@ class AgeGate {
             session_start();
         }
 
-        $logfile = fopen("log.dat", "w+");
+        $logfile = fopen("log.dat", "r");
+
+        if(!file_exists("log.dat")){
+            $logfile = fopen("log.dat", "r");
+        }
+
         if(filesize("log.dat") == 0) {
             $accepted_ids = [];    
         }
         else{
             $accepted_ids = explode("\n", fread($logfile,filesize("log.dat")));
         }
+        fclose($logfile);
+
         if( count($accepted_ids) > 10000 ){
             $accepted_ids = array_slice($accepted_ids, -count($accepted_ids)/2);
         }
 
         if( $jwt == "WAITING" ){
             if(!isset($_SESSION["agid"]) || !in_array($_SESSION["agid"], $accepted_ids)){
-                fclose($logfile);
                 return "c_wait";
             }
         }
@@ -162,9 +168,15 @@ class AgeGate {
                         
                 $decoded_array = (array) $decoded;
                 array_push($accepted_ids, $decoded_array['agid']);
+
+                $result = implode("\n", $accepted_ids);
+                $logfile = fopen("log.dat", "w");
+                fwrite($logfile, $result);
+                fclose($logfile);
+
+                return "agid_saved";
             }
             catch (Exception $e) {
-                fclose($logfile);
                 return "c_wait";
             }
 
@@ -174,8 +186,6 @@ class AgeGate {
             // $jws = \JOSE_JWT::decode($jwt);
             // $jws->verify($publicKey, 'RS256');
         }
-        fwrite($logfile, implode("\n", $accepted_ids));
-        fclose($logfile);
 
         return $_SESSION["nexturl"];
     }
